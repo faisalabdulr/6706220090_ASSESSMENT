@@ -10,39 +10,33 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class DetailViewModel (private val  dao: MenuDao): ViewModel() {
-
-    private val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
-
-    fun insert(makanan: String,isi: String){
+class DetailViewModel(private val dao: MenuDao) : ViewModel(){
+    fun insert(nama: String, harga: Float, kategori: String){
         val menu = Menu(
-            tanggal = formatter.format(Date()),
-            makanan = makanan,
-            menu = isi
+            nama = nama,
+            harga = harga,
+            kategori = kategori
         )
-        viewModelScope.launch(Dispatchers.IO){
-            dao.insert(menu)
-        }
+
+        viewModelScope.launch(Dispatchers.IO) { dao.insert(menu) }
     }
 
     suspend fun getMenu(id: Long): Menu? {
         return dao.getMenuById(id)
     }
-    fun update(id: Long, makanan: String, isi: String) {
+
+    fun update(id: Long, nama: String, harga: Float, kategori: String){
         val menu = Menu(
-            id      = id,
-            tanggal = formatter.format(Date()),
-            makanan   = makanan,
-            menu = isi
+            id = id,
+            nama = nama,
+            harga = harga,
+            kategori = kategori
         )
 
-        viewModelScope.launch(Dispatchers.IO) {
-            dao.update(menu)
-        }
+        viewModelScope.launch(Dispatchers.IO) { dao.update(menu) }
     }
+
     fun delete(id: Long){
-        viewModelScope.launch(Dispatchers.IO){
-            dao.deleteById(id)
-        }
+        viewModelScope.launch(Dispatchers.IO) { dao.deleteById(id) }
     }
 }

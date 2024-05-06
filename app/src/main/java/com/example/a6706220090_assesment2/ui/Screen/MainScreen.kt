@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -57,19 +59,15 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavHostController) {
+fun MainScreen(navController: NavHostController){
     val dataStore = SettingsDataStore(LocalContext.current)
     val showList by dataStore.layoutFlow.collectAsState(true)
-
-    Scaffold(
+    Scaffold (
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.app_name))
-                },
+            TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.primary
                 ),
                 actions = {
                     IconButton(onClick = {
@@ -100,34 +98,36 @@ fun MainScreen(navController: NavHostController) {
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = stringResource(R.string.tambah_catatan),
+                    contentDescription = stringResource(R.string.tambah_menu),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
         }
-    ) { padding ->
-        ScreenContent(showList, Modifier.padding(padding), navController)
+    ){
+            padding -> ScreenContent(showList, Modifier.padding(padding), navController)
     }
 }
 
 @Composable
-fun ScreenContent(showList: Boolean, modifier: Modifier, navController: NavHostController) {
+fun ScreenContent(showList: Boolean, modifier : Modifier, navController: NavHostController){
+
     val context = LocalContext.current
     val db = MenuDb.getInstace(context)
     val factory = ViewModelFactory(db.dao)
     val viewModel: MainViewModel = viewModel(factory = factory)
     val data by viewModel.data.collectAsState()
 
-    if (data.isEmpty()) {
-        Column(
-            modifier = modifier.fillMaxSize().padding(16.dp),
+    if (data.isEmpty()){
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        ){
             Text(text = stringResource(id = R.string.list_kosong))
         }
-    }
-    else {
+    }else {
         if (showList) {
             LazyColumn(
                 modifier = modifier.fillMaxSize(),
@@ -153,6 +153,7 @@ fun ScreenContent(showList: Boolean, modifier: Modifier, navController: NavHostC
                     GridItem(menu = it) {
                         navController.navigate(Screen.FormUbah.withId(it.id))
                     }
+                    Divider()
                 }
             }
         }
@@ -160,62 +161,51 @@ fun ScreenContent(showList: Boolean, modifier: Modifier, navController: NavHostC
 }
 
 @Composable
-fun ListItem(menu: Menu, onClick: () -> Unit) {
-    Column(
-        modifier = Modifier.fillMaxWidth()
+fun ListItem(menu: Menu, onClick: () -> Unit){
+    Column (
+        modifier = Modifier
+            .fillMaxWidth()
             .clickable { onClick() }
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = menu.makanan,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = menu.menu,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
-        Text(text = menu.tanggal)
+    ){
+
+        Text(text = menu.nama, maxLines = 2, overflow = TextOverflow.Ellipsis, fontWeight = FontWeight.Bold)
+        Text(text = "Harga : "+menu.harga.toString(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(text = "Kategori : "+menu.kategori)
     }
 }
-
 @Composable
-fun GridItem(menu: Menu, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier.fillMaxWidth().clickable { onClick() },
+fun GridItem(menu: Menu, onClick: () -> Unit){
+    Card (
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         border = BorderStroke(1.dp, Color.Gray)
-    ) {
+    ){
         Column(
             modifier = Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = menu.makanan,
-                maxLines = 2,
+                text = menu.nama,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = menu.menu,
-                maxLines = 4,
+                text = menu.harga.toString(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                text = menu.kategori,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Text(text = menu.tanggal)
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true)
-@Composable
-fun ScreenPreview() {
-    _6706220090_ASSESMENT2Theme {
-        MainScreen(rememberNavController())
     }
 }

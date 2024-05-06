@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
-public class MainViewModel(dao: MenuDao) : ViewModel() {
+class MainViewModel(dao: MenuDao) : ViewModel() {
     val data : StateFlow<List<Menu>> = dao.getMenu().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
