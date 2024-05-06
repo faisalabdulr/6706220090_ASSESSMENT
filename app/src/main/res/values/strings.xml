@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">6706220090_ASSESMENT2</string>
+    <string name="app_name">MAKANAN SUNDA</string>
+    <string name="list_kosong">Belum ada data</string>
+    <string name="x_diklik">%1$s diklik!</string>
+    <string name="tambah_catatan">Tambah Menu.</string>
+    <string name="makanan">Makanan.</string>
+    <string name="isi_catatan">Isi Catatan</string>
+    <string name="kembali">Kembali</string>
+    <string name="simpan">Simpan</string>
+    <string name="edit_catatan">Ubah catatan</string>
+    <string name="invalid">Menu makanan tidak boleh kosong</string>
+    <string name="lainnya">Opsi lainnya</string>
+    <string name="hapus">Hapus Menu</string>
+    <string name="pesan_hapus">Hapus Menu ini?</string>
+    <string name="tombol_hapus">Hapus</string>
+    <string name="tombol_batal">Batal</string>
+    <string name="list">Tampilan list</string>
+    <string name="grid">Tampilan grid</string>
+
+
 </resources>
