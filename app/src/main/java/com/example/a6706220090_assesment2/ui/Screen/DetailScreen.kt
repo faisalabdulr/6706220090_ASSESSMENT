@@ -58,6 +58,7 @@ fun DetailScreen(navController: NavHostController, id: Long? = null){
     val db = MenuDb.getInstace(context)
     val factory = ViewModelFactory(db.dao)
     val viewModel: DetailViewModel = viewModel(factory = factory)
+    var showDialog by remember { mutableStateOf(false) }
 
     var harga by remember {
         mutableStateOf("")
@@ -119,7 +120,11 @@ fun DetailScreen(navController: NavHostController, id: Long? = null){
                         )
                     }
                     if (id != null){
-                        DeleteById {
+                        DeleteById {showDialog = true }
+                        DisplayAlertDialog(
+                            openDialog = showDialog,
+                            onDismissRequest = { showDialog = false }) {
+                            showDialog = false
                             viewModel.delete(id)
                             navController.popBackStack()
                         }
