@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.a6706220090_assesment2.navigation.SetupNavGraph
+import com.example.a6706220090_assesment2.ui.Screen.MainScreen
 import com.example.a6706220090_assesment2.ui.theme._6706220090_ASSESMENT2Theme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SetupNavGraph()
+                    MainScreen()
                 }
             }
         }
