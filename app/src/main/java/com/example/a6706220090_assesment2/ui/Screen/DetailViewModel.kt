@@ -31,6 +31,8 @@ class DetailViewModel(private val dao: MenuDao) : ViewModel(){
             nama = nama,
             harga = harga,
             kategori = kategori
+
+
         )
 
         viewModelScope.launch(Dispatchers.IO) { dao.update(menu) }

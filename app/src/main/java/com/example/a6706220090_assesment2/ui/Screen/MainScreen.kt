@@ -2,13 +2,17 @@ package com.example.a6706220090_assesment2.ui.Screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -16,8 +20,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -35,6 +42,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -63,18 +71,41 @@ fun MainScreen(navController: NavHostController){
     val dataStore = SettingsDataStore(LocalContext.current)
     val showList by dataStore.layoutFlow.collectAsState(true)
     Scaffold (
+
         topBar = {
-            TopAppBar(title = { Text(text = stringResource(id = R.string.app_name)) },
+            TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.kembali),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                },
+                title = { Text(text = stringResource(id = R.string.app_name)) },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary
                 ),
                 actions = {
-                    IconButton(onClick = {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            dataStore.saveLayout(!showList)
+                    IconButton(
+                        onClick = {
+                            navController.navigate(Screen.About.route)
                         }
-                    }) {
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Info,
+                            contentDescription = stringResource(id = R.string.tentang_aplikasi),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    IconButton(
+                        onClick = {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                dataStore.saveLayout(!showList)
+                            }
+                        }
+                    ) {
                         Icon(
                             painter = painterResource(
                                 if (showList) R.drawable.baseline_grid_view_24
@@ -161,23 +192,44 @@ fun ScreenContent(showList: Boolean, modifier : Modifier, navController: NavHost
 }
 
 @Composable
-fun ListItem(menu: Menu, onClick: () -> Unit){
-    Column (
+fun ListItem(menu: Menu, onClick: () -> Unit) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
             .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ){
-
-        Text(text = menu.nama, maxLines = 2, overflow = TextOverflow.Ellipsis, fontWeight = FontWeight.Bold)
-        Text(text = "Harga : "+menu.harga.toString(), maxLines = 1, overflow = TextOverflow.Ellipsis)
-        Text(text = "Kategori : "+menu.kategori)
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.paket), // Replace with your drawable resource
+            contentDescription = null,
+            modifier = Modifier
+                .size(64.dp)
+                .clip(RoundedCornerShape(8.dp))
+        )
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = menu.nama,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "Harga: " + menu.harga.toString(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(text = "Kategori: " + menu.kategori)
+        }
     }
 }
+
 @Composable
-fun GridItem(menu: Menu, onClick: () -> Unit){
-    Card (
+fun GridItem(menu: Menu, onClick: () -> Unit) {
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() },
@@ -185,11 +237,19 @@ fun GridItem(menu: Menu, onClick: () -> Unit){
             containerColor = MaterialTheme.colorScheme.surface
         ),
         border = BorderStroke(1.dp, Color.Gray)
-    ){
+    ) {
         Column(
             modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            Image(
+                painter = painterResource(id = R.drawable.paket), // Replace with your drawable resource
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp) // Adjust the height as needed
+                    .clip(RoundedCornerShape(8.dp))
+            )
             Text(
                 text = menu.nama,
                 maxLines = 1,
@@ -199,7 +259,7 @@ fun GridItem(menu: Menu, onClick: () -> Unit){
             Text(
                 text = menu.harga.toString(),
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = menu.kategori,

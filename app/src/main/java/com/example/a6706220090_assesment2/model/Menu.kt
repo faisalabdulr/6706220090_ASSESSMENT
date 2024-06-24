@@ -9,5 +9,5 @@ class Menu (
     val id: Long = 0L,
     val nama: String,
     val harga: Float,
-    val kategori: String
+    val kategori: String,
 )

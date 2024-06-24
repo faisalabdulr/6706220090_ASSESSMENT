@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.a6706220090_assesment2.ui.Screen.AboutScreen
 import com.example.a6706220090_assesment2.ui.Screen.DetailScreen
 import com.example.a6706220090_assesment2.ui.Screen.KEY_ID
 
@@ -23,6 +24,9 @@ fun SetupNavGraph(navController: NavHostController = rememberNavController()) {
         }
         composable(route = Screen.FormBaru.route) {
             DetailScreen(navController)
+        }
+        composable(route = Screen.About.route) {
+            AboutScreen(navController)
         }
         composable(
             route = Screen.FormUbah.route,

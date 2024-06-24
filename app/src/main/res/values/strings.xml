@@ -16,4 +16,6 @@
     <string name="tombol_batal">Batal</string>
     <string name="list">Tampilan list</string>
     <string name="grid">Tampilan grid</string>
+    <string name="deskripsi_profil">Ini Adalah sebuah aplikasi berbasis android untuk mempermudah dalam pembelian makanan.</string>
+    <string name="tentang_aplikasi">Tentang Aplikasi</string>
 </resources>

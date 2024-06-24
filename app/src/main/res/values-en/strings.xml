@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MAKANAN SUNDA</string>
+    <string name="list_kosong">No menu yet</string>
+    <string name="x_diklik">%1$s clicked</string>
+    <string name="tambah_menu">Add Menu</string>
+    <string name="harga">Price</string>
+    <string name="isi_menu">Menu Name</string>
+    <string name="kembali">Back</string>
+    <string name="simpan">Save</string>
+    <string name="edit_menu">Change Menu</string>
+    <string name="invalid">Menu Name and Price Can\'t Be Empty!</string>
+    <string name="lainnya">More Options</string>
+    <string name="hapus">Clear Menu</string>
+    <string name="pesan_hapus">Delete this Menu</string>
+    <string name="tombol_hapus">Delete</string>
+    <string name="tombol_batal">Cancel</string>
+    <string name="list">List view</string>
+    <string name="grid">Grid view</string>
+</resources>
